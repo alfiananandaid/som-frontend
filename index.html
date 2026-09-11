@@ -1,3 +1,4 @@
+<!-- index.html -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,9 +8,10 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffffff">
     <link rel="stylesheet" href="css/app.css">
+    <!-- HTML5-QRCode Library -->
+    <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
 </head>
 <body>
-    <!-- NOTIFICATION TOAST -->
     <div id="toast" class="toast hidden"></div>
 
     <!-- VIEW: LOGIN -->
@@ -21,21 +23,19 @@
             </div>
             <form id="login-form">
                 <div class="input-group">
-                    <input type="text" id="username" placeholder="Username" required autocomplete="username">
+                    <!-- Default value admin berdasarkan koreksi user -->
+                    <input type="text" id="username" placeholder="Username" value="admin" required autocomplete="username">
                 </div>
                 <div class="input-group password-group">
-                    <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                    <input type="password" id="password" placeholder="Password" value="admin" required autocomplete="current-password">
                     <button type="button" id="toggle-password" class="icon-btn">👁️</button>
                 </div>
                 <button type="submit" id="btn-login" class="btn-primary">LOGIN</button>
             </form>
-            <div class="login-footer">
-                <a href="#" id="link-forgot">Lupa Password?</a>
-            </div>
         </div>
     </div>
 
-    <!-- VIEW: MAIN APP (Dashboard, SO, dll) -->
+    <!-- VIEW: MAIN APP -->
     <div id="view-main" class="view hidden">
         <header class="app-header">
             <h2 id="header-title">Dashboard</h2>
@@ -62,16 +62,42 @@
                 </div>
             </section>
 
-            <!-- TAB: SO -->
+            <!-- TAB: SO (SCANNER) -->
             <section id="tab-so" class="tab-content hidden">
-                <div class="empty-state">
-                    <h3>Fitur Scan Barcode</h3>
-                    <p>Modul SO sedang dalam pengembangan.</p>
+                <div class="scanner-wrapper">
+                    <div id="reader"></div>
+                    <div class="scanner-controls">
+                        <button id="btn-start-scan" class="btn-primary">Mulai Kamera</button>
+                        <button id="btn-stop-scan" class="btn-danger hidden">Tutup Kamera</button>
+                    </div>
+                    
+                    <div class="manual-input-box">
+                        <p class="text-center text-sm text-gray">Atau Input Manual</p>
+                        <div class="input-group" style="margin-top: 10px;">
+                            <input type="number" id="manual-barcode" placeholder="Masukkan Barcode">
+                            <button id="btn-manual-search" class="btn-secondary">Cari</button>
+                        </div>
+                    </div>
+
+                    <!-- HASIL SCAN -->
+                    <div id="scan-result" class="scan-result-card hidden">
+                        <h4 class="status-found">PRODUK DITEMUKAN</h4>
+                        <div class="product-info">
+                            <p class="text-sm text-gray">Barcode</p>
+                            <h3 id="res-barcode">-</h3>
+                            <p class="text-sm text-gray" style="margin-top: 10px;">Deskripsi</p>
+                            <p id="res-desc" style="font-weight: 600;">-</p>
+                        </div>
+                        
+                        <div class="input-group" style="margin-top: 15px;">
+                            <input type="number" id="input-qty" placeholder="Input QTY Fisik" required>
+                        </div>
+                        <button id="btn-save-so" class="btn-primary" style="margin-top: 10px;">SIMPAN SO</button>
+                    </div>
                 </div>
             </section>
         </main>
 
-        <!-- BOTTOM NAVIGATION (MOBILE) -->
         <nav class="bottom-nav">
             <button class="nav-item active" data-target="tab-dashboard">
                 <span class="nav-icon">📊</span>
@@ -84,9 +110,6 @@
         </nav>
     </div>
 
-    <script src="js/config.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/auth.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
